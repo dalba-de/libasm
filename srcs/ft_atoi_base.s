@@ -1,36 +1,70 @@
 section .text
 	global ft_atoi_base
-	extern ft_strlen
+	extern printf
 
 ft_atoi_base:
-	mov rax, 0							; result = 0
-	mov r8, 0							; sign = 0
-	mov r9, 0							; base_length = 0
-	mov r10, 0							; str_length = 0
-	jmp check_error_base				; jump to check_error_base function
+	mov rax, 0										; result = 0
+	mov r8, 1										; sign = 1
+	mov r9, -1										; base_length = -1
+	mov r10, 0										; str_length = 0
+	jmp check_error_base							; jump to check_error_base function
 
 check_error_base:
-	mov rcx, -1							; i = 0
-	mov rbx, 0							; count = 0
+	mov r12, -1										; i = -1
+	mov rcx, 0										; count = 0
 	error_loop:
-		inc rcx							; i++
-		cmp byte [rsi + rcx], 0			; while (base[i])
+		inc r12										; i++
+		inc r9										; base_length++
+		cmp byte [rsi + r12], 0						; while (base[i])
 		je white_space
-		mov rbx, rcx					; count = i + i
-		add rbx, 1						;
-		base_loop:
-			mov bl, byte [rsi + rbx]	
-			cmp bl, 0					; while (base[count])
-			je error_loop
-			cmp byte [rsi + rcx], bl	; if (base[i] == base[count])
-			je exit_error				;return (0)
-			inc rbx						; count++
-			jmp base_loop		
+		mov rcx, r12								; count = i
+		add rcx, 1
+			base_loop:
+				mov dl, byte [rsi + rcx]
+				cmp dl, 0							; while (base[count])
+				je error_loop
+				cmp dl, byte [rsi + r12]			; if (base[i] == base[count])
+				je exit_error						; return (0)
+				inc rcx								; count++
+				jmp base_loop		
 
 white_space:
-	mov rax, 1							; no valido, solo para prueba, continuar aqui
-	ret
+	mov rcx, -1										; i = 0
+	white_space_loop:
+		inc rcx										; i++
+		cmp byte [rdi + rcx], 32					; str[i] == ' '
+		je white_space_loop
+		cmp byte [rdi + rcx], 9						; str[i] == '\t'
+		je white_space_loop
+		cmp byte [rdi + rcx], 10					; str[i] == '\n'
+		je white_space_loop
+		cmp byte [rdi + rcx], 11					; str[i] == '\v'
+		je white_space_loop
+		cmp byte [rdi + rcx], 12					; str[i] == '\f'
+		je white_space_loop
+		cmp byte [rdi + rcx], 13					; str[i] == '\r'
+		je white_space_loop
+		jmp	check_sign
+
+check_sign:
+	cmp byte [rdi + rcx], 43						; str[i] == '+'
+	je check_base_length
+	cmp byte [rdi + rcx], 45						; str[i] == '-'
+	je sign_fill
+	jmp check_base_length
+
+sign_fill:
+	mov r8, -1										; sign = -1
+	jmp check_base_length
+
+check_base_length:
+	cmp r9, 1										; check if base is less or equal 1
+	jle exit_error
+	jmp at_strlen
+
+at_strlen:
+	ret												; continuar aqui, calculando longitud de la cadena, corresponde a r10
 
 exit_error:
-	mov rax, 0
+	mov rax, 29
 	ret

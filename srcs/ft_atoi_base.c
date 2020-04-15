@@ -1,4 +1,21 @@
-#include "libasm.h"
+#include "../includes/libasm.h"
+
+static int	at_strlen(char *str)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while ((str[i] == ' ') || (str[i] == '-') || (str[i] == '+') || (str[i] >= '\t' && str[i] <= '\r'))
+	{
+		i++;
+		j++;
+	}
+	while(str[i])
+		i++;
+	return (i - j);
+}
 
 static int	check_error_base(char *base)
 {
@@ -86,7 +103,7 @@ int         ft_atoi_base(char *str, char *base)
 	base_length = base_long(base);
 	if (base_length <= 1)
 		return (0);
-	str_length = strlen(str) - 1;
+	str_length = at_strlen(str) - 1;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
 	result = 0;
@@ -103,5 +120,5 @@ int         ft_atoi_base(char *str, char *base)
 
 int main()
 {
-	printf("%d\n", ft_atoi_base("poney", "poney"));
+	printf("%d\n", ft_atoi_base("poney", "popne"));
 }

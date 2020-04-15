@@ -13,15 +13,15 @@
 # COLORS #
 
 # This is a minimal set of ANSI/VT100 color codes
-_END		=	\x1b[0m
+_END		=	\033[0m
 _BOLD		=	\x1b[1m
 _UNDER		=	\x1b[4m
 _REV		=	\x1b[7m
 
 # Colors
 _GREY		=	\x1b[30m
-_RED		=	\x1b[31m
-_GREEN		=	\x1b[32m
+_RED		=	\033[0;31m
+_GREEN		=	\033[0;32m
 _YELLOW		=	\x1b[33m
 _BLUE		=	\x1b[34m
 _PURPLE		=	\x1b[35m
@@ -48,7 +48,7 @@ CC = gcc
 
 CFLAGS = -Wall -Werror -Wextra -I./includes
 
-NASM = nasm
+NASM = @nasm
 
 NFLAGS = -felf64 -I./includes
 
@@ -60,11 +60,11 @@ INC_DIR = includes/
 
 OBJ_DIR = objects/
 
-SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s \
+SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s \
 
 SRCS = $(addprefix ${SRC_DIR},${SRC})
 
-OBJ = $(addprefix ${OBJ_DIR}, ${SRC:.c=.o})
+OBJ = $(addprefix ${OBJ_DIR}, ${SRC:.s=.o})
 
 # **************************************************************************** #
 
@@ -74,16 +74,16 @@ all:		${NAME}
 
 ${NAME} :	${OBJ}
 			@echo "$(_GREEN) All files compiled. $(_END)✅"
-			${AR} ${NAME} ${OBJ}
-			ranlib ${NAME}
+			@${AR} ${NAME} ${OBJ}
+			@ranlib ${NAME}
 			@echo "$(_GREEN) Library '$(NAME)' compiled. $(_END)✅"
 
 ${OBJ_DIR}%.o: ${SRC_DIR}%.s
-			mkdir -p ${OBJ_DIR}
+			@mkdir -p ${OBJ_DIR}
 			${NASM} ${NFLAGS} -o $@ -s $<
 
 clean:
-			rm -rf ${OBJ_DIR}
+			@rm -rf ${OBJ_DIR}
 			@echo "$(_RED)'"$(DIR_OBJS)"' has been deleted. $(_END)🗑️"
 
 
