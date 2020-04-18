@@ -1,4 +1,4 @@
-#include "../includes/libasm.h"
+#include <stdio.h>
 
 static int	at_strlen(char *str)
 {
@@ -120,5 +120,5 @@ int         ft_atoi_base(char *str, char *base)
 
 int main()
 {
-	printf("%d\n", ft_atoi_base("-poney", "poney"));
+	printf("%d\n", ft_atoi_base("    poney", "poney"));
 }

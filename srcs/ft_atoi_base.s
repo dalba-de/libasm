@@ -4,6 +4,10 @@ section .text
 	global ft_pow
 	extern ft_strlen
 
+;
+;		########## FT_POW FUNCTION ##########
+;
+
 ft_pow:												; ft_pow subrutine		//		ft_pow (int nbr, int base)
 	mov r11, rdi									; mult = nbr
 	start:
@@ -20,8 +24,12 @@ calc_nbr:
 	jmp start
 
 ret_zero:
-	mov rax, 0
+	mov rax, 1
 	ret
+
+;
+;		########## FT_CHECK_BASE FUNCTION ##########
+;
 
 ft_check_base:										; ft_check_base subrutine		//		ft_check_base(char c, char *base)
 	mov r11, 0										; i = 0
@@ -41,6 +49,10 @@ check_eq_base:
 ret_num_base:
 	mov rax, r11
 	ret
+
+;
+;		########## FT_ATOI_BASE FUNCTION ##########
+;
 
 ft_atoi_base:										; ft_atoi_base function		//		ft_atoi_base(char *str, char *base)
 	mov rax, 0
@@ -138,9 +150,16 @@ check_str_is_ok:
 
 calc_result:
 	pop rcx											; recover (i) value
+	mov r12, 0
+	dec r10
 	while_calc:
 		cmp byte [rdi + rcx], 0						; while (str[i])
 		je ret_result
+		push rdi
+		movzx rdi, byte [rdi + rcx]
+		call ft_check_base								; call ft_check_base function
+		pop rdi
+		mov r12, rax
 		push rdi
 		push rsi
 		mov rdi, r9
@@ -148,11 +167,15 @@ calc_result:
 		call ft_pow
 		pop rsi
 		pop rdi
-		inc rcx										; continuar aqui. Lineas anteriores parcialmente validas
+		imul rax, r12
+		add r14, rax
+		inc rcx
+		dec r10
 		jmp while_calc
 
 ret_result:
-	;mov rax, r14
+	imul r14, r8
+	mov rax, r14
 	ret
 
 exit_error:
