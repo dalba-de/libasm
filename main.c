@@ -15,6 +15,6 @@ int main()
     printf("strdup ==> %s\n", strdup(s4));
     printf("ft_strdup ==> %s\n", ft_strdup(s4));*/
 
-    printf("%d\n", ft_atoi_base("poney", "poney"));
+    printf("%d\n", ft_atoi_base("  -poney", "poney"));
     return (0);
 }

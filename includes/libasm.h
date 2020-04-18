@@ -10,6 +10,8 @@ int     ft_strcmp(const char *s1, const char *s2);
 char	*ft_strcpy(char *dst, const char *src);
 char    *ft_strdup(const char *s);
 int     ft_atoi_base(char *str, char *base);
+int	    ft_check_base(char c, char *base);
+int     ft_pow(int nbr, int base);
 
 #endif
 

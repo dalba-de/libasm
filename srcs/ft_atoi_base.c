@@ -120,5 +120,5 @@ int         ft_atoi_base(char *str, char *base)
 
 int main()
 {
-	printf("%d\n", ft_atoi_base("poney", "popne"));
+	printf("%d\n", ft_atoi_base("-poney", "poney"));
 }
