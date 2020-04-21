@@ -4,7 +4,6 @@ section .text
 ft_strcpy:
     mov rax, 0
     mov rcx, 0
-    push rsi
     cmp rsi, 0
     je fin
     while:
@@ -15,6 +14,6 @@ ft_strcpy:
         inc rcx
         jmp while
 fin:
-    pop rsi
+    mov byte [rdi + rcx], 0
     mov rax, rdi
     ret

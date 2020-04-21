@@ -1,11 +1,45 @@
 #include "includes/libasm.h"
 
+void    ft_putchar(char c)
+{
+    ft_write(1, &c, 1);
+}
+
+void    ft_putstr(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        ft_putchar(str[i]);
+        i++;
+    }
+}
+
 int main()
 {
-    char s1[100];
-    char *s2 = "ABCDE";
-    char *s3 = "abcde";
-    char *s4 = "cadena larga de caracteres para volverse locos loquitos";
+    char    s1[100];
+    char    *s2 = "ABCDE";
+    char    *s3 = "abcde";
+    char    *s4 = "cadena larga de caracteres para volverse locos loquitos";
+    int     fd;
+    int     r;
+
+    printf("strdup ==> %s\n", strdup("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet."));
+    printf("ft_strdup ==> %s\n", ft_strdup("Lorem ipsum dolor sit amet, consectetur adipiscing\
+elit. Sed in malesuada purus. Etiam a scelerisque massa. Ut non euismod elit. Aliquam\
+bibendum dolor mi, id fringilla tellus pulvinar eu. Fusce vel fermentum sem. Cras\
+volutpat, eros eget rhoncus rhoncus, diam augue egestas dolor, vitae rutrum nisi\
+felis sed purus. Mauris magna ex, mollis non suscipit eu, lacinia ac turpis. Phasellus\
+ac tortor et lectus fermentum lobortis eu at mauris. Vestibulum sit amet posuere\
+tortor, sit amet consequat amet."));
     /*printf("strlen ==> %ld\n", strlen(s2));
     printf("ft_strlen ==> %ld\n", ft_strlen(s2));
     printf("strcmp ==> %d\n", strcmp(s2, s3));
@@ -13,8 +47,14 @@ int main()
     printf("strcpy ==> %s\n", strcpy(s1, s2));
     printf("ft_strcpy ==> %s\n", ft_strcpy(s1, s2));
     printf("strdup ==> %s\n", strdup(s4));
-    printf("ft_strdup ==> %s\n", ft_strdup(s4));*/
-
-    printf("%d\n", ft_atoi_base("      -2a", "0123456789abcedf"));
-    return (0);
+    printf("ft_strdup ==> %s\n", ft_strdup(s4));
+    printf("ft_atoi_base ==> %d\n", ft_atoi_base("      -2a", "0123456789abcedf"));
+    fd = open("test.txt", O_RDONLY);
+    r = ft_read(fd, s1, 11);
+    printf("%d\n", r);
+    s1[r] = '\0';
+    ft_putstr(s1);
+    //printf("lenght vale: %d\n", lenght);
+    //printf("write ==> %zd\n", write(-1, "hola\n", 5));
+    return (0);*/
 }

@@ -60,7 +60,7 @@ INC_DIR = includes/
 
 OBJ_DIR = objects/
 
-SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s \
+SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s ft_write.s ft_read.s \
 
 SRCS = $(addprefix ${SRC_DIR},${SRC})
 
