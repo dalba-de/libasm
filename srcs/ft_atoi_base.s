@@ -3,6 +3,7 @@ section .text
 	global ft_check_base
 	global ft_pow
 	extern ft_strlen
+	extern ft_write
 
 ;
 ;		########## FT_POW FUNCTION ##########
@@ -132,8 +133,8 @@ strlen:
 	call ft_strlen									; call ft_strlen function
 	sub rax, r10									; substract the value of i
 	mov r10, rax									; r10 = strlen
-	pop rcx
-	push rcx										; save (i) value
+	pop rcx										
+	mov r14, rcx									; save (i) value
 	
 check_str_is_ok:
 	cmp byte [rdi + rcx], 0							; while (str[i])
@@ -149,7 +150,8 @@ check_str_is_ok:
 
 
 calc_result:
-	pop rcx											; recover (i) value
+	mov rcx, r14									; recover (i) value
+	mov r14, 0
 	mov r12, 0
 	dec r10
 	while_calc:
@@ -157,7 +159,7 @@ calc_result:
 		je ret_result
 		push rdi
 		movzx rdi, byte [rdi + rcx]
-		call ft_check_base								; call ft_check_base function
+		call ft_check_base							; call ft_check_base function
 		pop rdi
 		mov r12, rax
 		push rdi
@@ -179,5 +181,5 @@ ret_result:
 	ret
 
 exit_error:
-	mov rax, -1
+	mov rax, 0
 	ret
