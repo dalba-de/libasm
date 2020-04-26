@@ -3,7 +3,6 @@ section .text
 	global ft_check_base
 	global ft_pow
 	extern ft_strlen
-	extern ft_write
 
 ;
 ;		########## FT_POW FUNCTION ##########
@@ -58,7 +57,7 @@ ret_num_base:
 ft_atoi_base:										; ft_atoi_base function		//		ft_atoi_base(char *str, char *base)
 	mov rax, 0
 	mov r14, 0										; result = 0
-	mov r8, 1										; sign = 1
+	mov r8, 0										; sign = 1
 	mov r9, -1										; base_length = -1
 	mov r10, 0										; str_length = -1
 	jmp check_error_base							; jump to check_error_base function
@@ -77,6 +76,16 @@ check_error_base:
 		je exit_error
 		cmp byte [rsi + r12], 32					; if (base[i] == ' ')
 		je exit_error								; return (0)
+		cmp byte [rsi + r12], 9						; if (base[i] == '\t')
+		je exit_error
+		cmp byte [rsi + r12], 10					; if (base[i] == '\n')
+		je exit_error
+		cmp byte [rsi + r12], 11					; if (base[i] == '\v')
+		je exit_error
+		cmp byte [rsi + r12], 12					; if (base[i] == '\f')
+		je exit_error
+		cmp byte [rsi + r12], 13					; if (base[i] == '\r')
+		je exit_error
 		mov rcx, r12								; count = i
 		add rcx, 1
 			base_loop:
@@ -106,37 +115,46 @@ white_space:
 		je white_space_loop
 		jmp	check_sign
 
+is_neg:
+	inc r8											; sign '-' ++
+	inc rcx											; if (str[i] == '-') i++
+	jmp check_sign
+
+is_pos:
+	inc rcx											; if (str[i] == '+') i++
+	jmp check_sign
+
 check_sign:
 	cmp byte [rdi + rcx], 43						; str[i] == '+'
 	je is_pos
 	cmp byte [rdi + rcx], 45						; str[i] == '-'
-	je sign_fill
-	jmp check_base_length
-
-is_pos:
-	inc rcx											; if (str[i] == '+') i++
-	jmp check_base_length
+	je is_neg
+	jmp sign_fill
 
 sign_fill:
-	inc rcx											; if (str[i] == '-') i++
-	mov r8, -1										; sign = -1
+	xor rdx, rdx									; rdx = 0
+	mov rax, r8										; r8 % 2
+	mov r8, 2
+	div r8
+	cmp rdx, 0
+	je	sign_pos									; if r8 % 2 == 0 ---> sign = 1
+	jmp sign_neg									; if r8 % 2 > 0  ---> sign = -1
+
+sign_pos:
+	mov r8, 1
+	jmp check_base_length
+
+sign_neg:
+	mov r8, -1
 	jmp check_base_length
 
 check_base_length:
 	cmp r9, 1										; check if base is less or equal 1
 	jle exit_error
-	jmp strlen
+	mov r14, rcx
+	jmp check_strlen
 
-strlen:
-	mov r10, rcx									; save in r10 the value of i
-	push rcx
-	call ft_strlen									; call ft_strlen function
-	sub rax, r10									; substract the value of i
-	mov r10, rax									; r10 = strlen
-	pop rcx										
-	mov r14, rcx									; save (i) value
-	
-check_str_is_ok:
+check_strlen:
 	cmp byte [rdi + rcx], 0							; while (str[i])
 	je calc_result
 	push rdi										; save str value
@@ -144,20 +162,23 @@ check_str_is_ok:
 	call ft_check_base								; call ft_check_base function
 	pop rdi											; recover str value
 	cmp rax, -1										; if ft_check_base == -1, str is ko
-	je exit_error
+	je calc_result
+	inc r10
 	inc rcx											; i++
-	jmp check_str_is_ok
+	jmp check_strlen
 
 
 calc_result:
 	mov rcx, r14									; recover (i) value
 	mov r14, 0
 	mov r12, 0
-	dec r10
+	dec r10											; str_length--
 	while_calc:
 		cmp byte [rdi + rcx], 0						; while (str[i])
 		je ret_result
-		push rdi
+		cmp r10, 0									; while (str_length >= 0)
+		jl ret_result
+		push rdi									; save rdi value
 		movzx rdi, byte [rdi + rcx]
 		call ft_check_base							; call ft_check_base function
 		pop rdi
@@ -166,13 +187,13 @@ calc_result:
 		push rsi
 		mov rdi, r9
 		mov rsi, r10
-		call ft_pow
+		call ft_pow									; call ft_pow function
 		pop rsi
 		pop rdi
 		imul rax, r12
-		add r14, rax
-		inc rcx
-		dec r10
+		add r14, rax								; result += (ft_check_base(str[i], base) * ft_pow(base_l, str_l))
+		inc rcx										; i++
+		dec r10										; str_length--
 		jmp while_calc
 
 ret_result:

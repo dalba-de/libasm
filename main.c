@@ -40,6 +40,6 @@ int main()
     s1[r] = '\0';
     close (fd);
     ft_putstr(s1);*/
-    printf("ft_atoi_base ==> %d\n", ft_atoi_base("45", "01"));
+    printf("ft_atoi_base ==> %d\n", ft_atoi_base("   -----++poney\tponey", "poney"));
     return (0);
 }
