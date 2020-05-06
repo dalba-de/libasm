@@ -1,22 +1,5 @@
 #include "includes/libasm.h"
 
-void    ft_putchar(char c)
-{
-    ft_write(1, &c, 1);
-}
-
-void    ft_putstr(char *str)
-{
-    int i;
-
-    i = 0;
-    while (str[i])
-    {
-        ft_putchar(str[i]);
-        i++;
-    }
-}
-
 int main()
 {
     char    s1[100];
@@ -25,7 +8,8 @@ int main()
     char    *s4 = "cadena larga de caracteres para volverse locos loquitos";
     int     fd;
     int     r;
-
+    
+    errno = 0;
     /*printf("strlen ==> %ld\n", strlen(s2));
     printf("ft_strlen ==> %ld\n", ft_strlen(s2));
     printf("strcmp ==> %d\n", strcmp(s2, s3));
@@ -39,7 +23,12 @@ int main()
     r = ft_read(fd, s1, 11);
     s1[r] = '\0';
     close (fd);
-    ft_putstr(s1);*/
-    printf("ft_atoi_base ==> %d\n", ft_atoi_base("   -----++poney\tponey", "poney"));
+    ft_putstr(s1);
+    printf("ft_atoi_base ==> %d\n", ft_atoi_base("   -----++poney\tponey", "poney"));*/
+
+    r = read(3, s1, 5);
+    printf("r = %d\nerrno = %d\n", r, errno);
+    fd = ft_read(3, s1, 5);
+    printf("fd = %d\nerrno = %d\n", fd, errno);
     return (0);
 }

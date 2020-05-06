@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dalba <dalba@student.42.fr>                +#+  +:+       +#+         #
+#    By: dalba-de <dalba-de@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/13 16:54:49 by dalba             #+#    #+#              #
-#    Updated: 2020/04/13 17:19:01 by dalba            ###   ########.fr        #
+#    Updated: 2020/05/01 19:20:36 by dalba-de         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COLORS #
 
-# This is a minimal set of ANSI/VT100 color codes
+# This is a minimal set color codes
 _END		=	\033[0m
 _BOLD		=	\x1b[1m
 _UNDER		=	\x1b[4m
@@ -60,7 +60,7 @@ INC_DIR = includes/
 
 OBJ_DIR = objects/
 
-SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s ft_write.s ft_read.s \
+SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s ft_write.s ft_read.s ft_list_push_front.s ft_list_size.s \
 
 SRCS = $(addprefix ${SRC_DIR},${SRC})
 
