@@ -30,7 +30,7 @@ sort_loop:
 	call rcx					; call ft_strcmp
 	pop rsi
 	pop rdi
-	cmp rax, 0					; if ((*cmp)(ptr2->data, ptr2->next->data) > 0)
+	cmp eax, 0					; if ((*cmp)(ptr2->data, ptr2->next->data) > 0)
 	jg sort
 	jmp next_increment
 
@@ -48,18 +48,3 @@ sort:
 fin:
 	mov [rdi], r8				; restore value of *begin_list
 	ret
-
-debug:
-	push rdi
-	push rsi
-	push rcx
-	push r9
-	mov rdi, 1
-	mov rsi, rax
-	mov rdx, 1
-	call ft_write
-	pop r9
-	pop rcx
-	pop rsi
-	pop rdi
-	jmp next_increment
