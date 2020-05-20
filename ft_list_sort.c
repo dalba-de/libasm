@@ -39,9 +39,9 @@ int main()
     t_list *list;
 
     bzero(list, sizeof(t_list));
-    list->data = "A";
-    ft_list_push_front(&list, "Z");
-    ft_list_push_front(&list, "C");
+    list->data = NULL;
+    ft_list_push_front(&list, "2");
+    ft_list_push_front(&list, "1");
 	printf_list(list);
 	printf("\n");
     ft_list_sort(&list, strcmp);

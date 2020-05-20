@@ -3,6 +3,7 @@
 int main()
 {
     char    s1[100];
+    char    *c;
     char    *s2 = "ABCDE";
     char    *s3 = "abcde";
     char    *s4 = "cadena larga de caracteres para volverse locos loquitos";
@@ -26,9 +27,9 @@ int main()
     ft_putstr(s1);
     printf("ft_atoi_base ==> %d\n", ft_atoi_base("   -----++poney\tponey", "poney"));*/
 
-    r = read(3, s1, 5);
-    printf("r = %d\nerrno = %d\n", r, errno);
-    fd = ft_read(3, s1, 5);
-    printf("fd = %d\nerrno = %d\n", fd, errno);
+    r = read(1, s1, 5);
+    printf("r = %d\nerrno = %s\n", r, strerror(errno));
+    fd = ft_read(1, s1, 5);
+    printf("fd = %d\nerrno = %s\n", fd, strerror(errno));
     return (0);
 }

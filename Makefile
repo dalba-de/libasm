@@ -6,7 +6,7 @@
 #    By: dalba-de <dalba-de@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/13 16:54:49 by dalba             #+#    #+#              #
-#    Updated: 2020/05/01 19:20:36 by dalba-de         ###   ########.fr        #
+#    Updated: 2020/05/14 16:41:06 by dalba-de         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,8 @@ INC_DIR = includes/
 
 OBJ_DIR = objects/
 
-SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s ft_write.s ft_read.s ft_list_push_front.s ft_list_size.s \
+SRC =	ft_strcmp.s ft_strlen.s ft_strcpy.s ft_strdup.s ft_atoi_base.s ft_write.s \
+		ft_read.s ft_list_push_front.s ft_list_size.s ft_list_sort.s \
 
 SRCS = $(addprefix ${SRC_DIR},${SRC})
 
