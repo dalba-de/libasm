@@ -3,8 +3,6 @@ section .text
     extern __errno_location
 
 ft_write:
-    cmp rsi, 0
-    je error
     mov rax, 1
     syscall
     cmp rax, 0

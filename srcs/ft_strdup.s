@@ -7,8 +7,6 @@ section .text
 ft_strdup:
     mov rax, 0
     mov rcx, 0
-    cmp rdi, 0
-    je error
     call ft_strlen
     add rax, 1
     push rdi

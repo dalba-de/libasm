@@ -1,50 +1,55 @@
 section .text
 	global ft_list_sort
-	extern ft_write
 
 ft_list_sort:
-	mov r8, [rdi]               ; ptr = *begin_list
+	cmp rdi, 0
+	je fin
+	mov r12, [rdi]               ; ptr = *begin_list
+	cmp rsi, 0
+	je fin
 	jmp main_loop
 
-main_increment:
-	mov r9, [rdi]            	; ptr = ptr->next
-	mov r10, [r9 + 8]
-	mov [rdi], r10
+increment:
+	mov rcx, [rdi]            	; ptr = ptr->next
+	mov rbx, [rcx + 8]
+	mov [rdi], rbx
 
 main_loop:
 	cmp QWORD [rdi], 0          ; while (ptr)
 	je fin
-	mov r9, [rdi]               ; ptr2  = *begin_list
-	mov r10, [r9 + 8]           ; r10 = ptr2->next
+	mov rcx, [rdi]               ; ptr2  = *begin_list
+	mov rbx, [rcx + 8]           ; rbx = ptr2->next
 
 sort_compare:
-	cmp r10, 0              	; while (ptr2->next)
-	je main_increment
+	cmp rbx, 0              	; while (ptr2->next)
+	je increment
 
 sort_loop:
 	push rdi					
 	push rsi					
-	mov rcx, rsi				; rcx = rsi (*cmp)
-	mov rdi, [r9]				; rdi = ptr2->data
-	mov rsi, [r10]				; rsi = ptr2->next->data
-	call rcx					; call ft_strcmp
+	mov rax, rsi				; rcx = rsi (*cmp)
+	mov rcx, [rdi]
+	mov rdi, [rcx]				; rdi = ptr2->data
+	mov rsi, [rbx]				; rsi = ptr2->next->data
+	call rax					; call ft_strcmp
 	pop rsi
 	pop rdi
 	cmp eax, 0					; if ((*cmp)(ptr2->data, ptr2->next->data) > 0)
 	jg sort
-	jmp next_increment
 
 next_increment:
-	mov r10, [r10 + 8]			; ptr2 = ptr2->next
+	mov rcx, [rbx + 8]			; ptr2 = ptr2->next
+	mov rbx, rcx
 	jmp sort_compare
 
 sort:
-	mov r11, [r9]				; next = ptr2->data
-	mov r12, [r10]
-	mov [r9], r12				; ptr2->data = ptr2->next->data
-	mov [r10], r11 				; ptr2->next->data = next
+	mov r8, [rdi]
+	mov rcx, [r8]				; next = ptr2->data
+	mov rax, [rbx]
+	mov [r8], rax				; ptr2->data = ptr2->next->data
+	mov [rbx], rcx 				; ptr2->next->data = next
 	jmp next_increment
 
 fin:
-	mov [rdi], r8				; restore value of *begin_list
+	mov [rdi], r12				; restore value of *begin_list
 	ret

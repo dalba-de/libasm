@@ -2,6 +2,7 @@ section .text
     global ft_list_size
 
 ft_list_size:
+    mov rsi, rdi
     mov rcx, 0
     while:
         cmp rdi, 0
@@ -11,5 +12,6 @@ ft_list_size:
         jmp while
 
 fin:
+    mov rdi, rsi
     mov rax, rcx
     ret
